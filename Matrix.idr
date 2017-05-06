@@ -2,18 +2,11 @@ module Matrix
 
 import Data.Vect
 
-createEmpties : Vect n (Vect 0 a)
-createEmpties = replicate _ []
-
 transposeMat : Vect m (Vect n a) -> Vect  n (Vect m a)
-transposeMat [] = createEmpties
+transposeMat [] = replicate _ []
 transposeMat (x :: xs) =
-  let transposedXs = transposeMat xs in
-      (transposeHelper x transposedXs)
-  where
-     transposeHelper : Vect n a -> Vect n (Vect len a) -> Vect n (Vect (S len) a)
-     transposeHelper [] [] = []
-     transposeHelper (x :: xs) (y :: yss) = (x :: y) :: transposeHelper xs yss
+    let transposed = transposeMat xs
+    in (zipWith (::) x transposed)
 
 addMatrix : Num a => Vect n (Vect m a) -> Vect n (Vect m a) -> Vect n (Vect m a)
 addMatrix [] [] = []
